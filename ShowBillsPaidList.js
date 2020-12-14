@@ -1,10 +1,10 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import BillsPaidCard from './BillsPaidCard';
 import CreateBillsPaid from './CreateBillsPaid';
-
+import ShowBillsPaidDetails from './ShowBillsPaidDetails';
 
 function ShowBillsPaidList() {
 
@@ -45,6 +45,11 @@ function ShowBillsPaidList() {
     getAllBillsPaids();
     
 }, []);
+
+
+
+
+    
 
 
   return (
@@ -92,38 +97,45 @@ function ShowBillsPaidList() {
             <table className='grid-container'>
            <tr>
                 <td class='col-2'>
-                  {billspaid.name}   
+                <Link to={`/UpdateBillsPaidInfo/${billspaid._id}`}>
+                {billspaid.name}
+                    </Link>
+                     
                 </td>
                 <td class='col-2'>
-                  {billspaid.week1} 
+                  ${billspaid.week1} 
                 </td>
                 <td class='col-2'>
-                  {billspaid.week2}
+                  ${billspaid.week2}
                 </td>
                 <td class='col-2'>
-                  {billspaid.week3}
+                  ${billspaid.week3}
                 </td>
                 <td class='col-2'>
-                  {billspaid.week4}
+                  ${billspaid.week4}
                 </td>
+                
+              
+            
+              
                 </tr>
             </table>
             <table>
           <tr>
             <th width='120px'>
-              {monthtotal}
+              ${monthtotal}
             </th>
             <th>
-              {week1total}
+              ${week1total}
             </th>
             <th>
-              {week2total}
+              ${week2total}
             </th>
             <th>
-              {week3total}
+              ${week3total}
             </th>
             <th>
-              {week4total}
+              ${week4total}
             </th>
           </tr>
         </table>
