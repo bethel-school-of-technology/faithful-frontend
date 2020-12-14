@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import Home from './pages/Home';
@@ -15,6 +15,8 @@ import ShowDreamsList from './componentsdreams/ShowDreamsList';
 import ShowMillPlanList from './componentsmillplan/ShowMillPlanList';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
+
+
 
 const styles = {
   textAlign: "center"
@@ -40,7 +42,7 @@ const App = () => (
         </tr>
         <tr>
         <td>
-         <button> <Link to="/signup">Sign Up</Link></button>
+         <button> <Link to="/login/signup">Sign Up</Link></button>
           </td>
           <td>
           <button><Link to="/CashFlowDaily">Daily/Weekly Cash Flow</Link></button>
@@ -56,7 +58,7 @@ const App = () => (
         <tr>
            
         <td>
-            <button><Link to="/signin">Sign In</Link></button>
+            <button><Link to="/login/signin">Sign In</Link></button>
           </td>
           <td>
           <button><Link to="/SowReap">Sowing and Reaping</Link></button>
@@ -65,11 +67,7 @@ const App = () => (
           <td>
           <button><Link to="/Savings">Savings</Link></button>
           </td>
-          <td>
-          <button><Link to="/MillPlan">Million Dollar Plan</Link></button>
-          </td>
-
-
+          
         </tr>
       </table>
 
@@ -80,8 +78,8 @@ const App = () => (
       <h1 className="Faithful" text-align= "center">FAITHFUL</h1>
 
       <Route exact path="/" component={Home} />
-      <Route path="/signup" component={SignUp} />
-      <Route path="/signin" component={SignIn} />
+      <Route path="/login/signup" component={SignUp} />
+      <Route path="/login/signin" component={SignIn} />
       <Route path="/CashFlowMaking" component={CashFlowMaking} />
       <Route path="/CashFlowDaily" component={CashFlowDaily} />
       <Route path="/BillsPaid" component={ShowBillsPaidList} />
@@ -92,8 +90,10 @@ const App = () => (
       <Route path="/Dreams" component={ShowDreamsList} />
       <Route path="/MillionPlan" component={ShowMillPlanList} />
 
+
     </div>
   </Router>
 );
+
 
 ReactDOM.render(<App />, document.getElementById('root'));

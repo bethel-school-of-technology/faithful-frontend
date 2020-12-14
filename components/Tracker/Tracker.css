@@ -1,0 +1,53 @@
+.tracker_container {
+  background-color: #282c34;
+  min-width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: calc(8px + 2vmin);
+  color: white;
+}
+
+.tracker_row {
+  box-sizing: border-box;
+  position: relative;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 750px;
+  display: flex; 
+  flex-wrap: wrap; 
+  flex-grow: 0; 
+  flex-shrink: 0; 
+  justify-content: flex-start;
+}
+
+.column_left {
+  display: block;
+  width: 75px;
+  float: left;
+  margin-left: 100px;
+}
+
+
+.column_middle {
+  box-sizing: border-box;
+  min-height: 1px;
+  position: relative;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 100%;
+  flex: 1 0 0px;
+  max-width: 100%;
+  margin-left: 0%;
+}
+
+.column_right {
+  box-sizing: border-box;
+  min-height: 1px;
+  position: relative;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 100%;
+  flex: 1 0 0px;
+  max-width: 100%;
+  margin-left: 0%;
+}
