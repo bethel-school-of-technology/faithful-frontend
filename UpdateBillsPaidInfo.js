@@ -5,7 +5,7 @@ import ShowBillsPaidList from './ShowBillsPaidList';
 import { Link } from 'react-router-dom';
 import { render } from '@testing-library/react';
 
-function CreateBillsPaid() {
+function UpdateBillsPaidInfo() {
 
   var [isEdit, setIsEdit] = useState("");
   var [billspaids, setBillsPaids] = useState([]);
@@ -36,14 +36,14 @@ function CreateBillsPaid() {
   }, [])
 
   const handleSubmit = async () => {
-    let newBillsPaidData = await fetch('http://localhost:3001/billspaids/add', {
-      method: "Post",
+    let updateBillsPaidData = await fetch('http://localhost:3001/billspaids/update/:id', {
+      method: "Put",
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ name, week1, week2, week3, week4 })
     })
-    let newBillsPaid = newBillsPaidData.json();
+    let updateBillsPaid = updateBillsPaidData.json();
   }
 
   return (
@@ -116,26 +116,6 @@ function CreateBillsPaid() {
 
         </form>
 
-        <table className='grid-container'>
-          <tr>
-            <th class='col-2'>
-              Bill
-            </th>
-            <th class='col-2'>
-              Week 1
-            </th>
-            <th class='col-2'>
-              Week 2
-            </th>
-            <th class='col-2'>
-              Week 3
-            </th>
-            <th class='col-2'>
-              Week 4
-            </th>
-          </tr>
-        </table>
-        
         {billspaids.map((billspaid, idx) => {
           return (
             <div key={idx}>
@@ -168,4 +148,4 @@ function CreateBillsPaid() {
   )
 };
 
-export default CreateBillsPaid;
+export default UpdateBillsPaidInfo;
