@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import { render } from 'react-dom';
 import Home from './pages/Home';
@@ -7,6 +7,7 @@ import SignUp from './pages/SignUp';
 import CashFlowMaking from './pages/CashFlowMaking';
 import CashFlowDaily from './pages/CashFlowDaily';
 import ShowBillsPaidList from './componentsbillspaid/ShowBillsPaidList';
+import CreateBillsPaid from './componentsbillspaid/CreateBillsPaid';
 import ShowDebtPayoffList from './componentsdebtpayoff/ShowDebtPayoffList';
 import ShowSowReapList from './componentssowreap/ShowSowReapList';
 import ShowSavingsList from './componentssavings/ShowSavingsList';
@@ -16,15 +17,13 @@ import ShowMillPlanList from './componentsmillplan/ShowMillPlanList';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import './App.css';
 
-
-
 const styles = {
   textAlign: "center"
 };
 
 const App = () => (
   <Router>
-    <div>
+    <div className='header'>
       <table className="links">
         <tr>
           <td>
@@ -42,7 +41,7 @@ const App = () => (
         </tr>
         <tr>
         <td>
-         <button> <Link to="/login/signup">Sign Up</Link></button>
+         <button> <Link to="/signup">Sign Up</Link></button>
           </td>
           <td>
           <button><Link to="/CashFlowDaily">Daily/Weekly Cash Flow</Link></button>
@@ -58,7 +57,7 @@ const App = () => (
         <tr>
            
         <td>
-            <button><Link to="/login/signin">Sign In</Link></button>
+            <button><Link to="/signin">Sign In</Link></button>
           </td>
           <td>
           <button><Link to="/SowReap">Sowing and Reaping</Link></button>
@@ -67,33 +66,39 @@ const App = () => (
           <td>
           <button><Link to="/Savings">Savings</Link></button>
           </td>
-          
+          <td>
+          <button><Link to="/MillPlan">Million Dollar Plan</Link></button>
+          </td>
+
+
         </tr>
+      
       </table>
 
 
 
       <hr />
-
-      <h1 className="Faithful" text-align= "center">FAITHFUL</h1>
-
+      <div className="col-md-12">
+              <br />
+              <h1 className="display-4 text-center">FAITHFUL</h1>
+            </div>
+      
       <Route exact path="/" component={Home} />
-      <Route path="/login/signup" component={SignUp} />
-      <Route path="/login/signin" component={SignIn} />
+      <Route path="/signup" component={SignUp} />
+      <Route path="/signin" component={SignIn} />
       <Route path="/CashFlowMaking" component={CashFlowMaking} />
       <Route path="/CashFlowDaily" component={CashFlowDaily} />
       <Route path="/BillsPaid" component={ShowBillsPaidList} />
+      <Route path="/CreateBillsPaid" component={CreateBillsPaid} />
       <Route path="/DebtPayoff" component={ShowDebtPayoffList} />
       <Route path="/SowReap" component={ShowSowReapList} />
       <Route path="/Savings" component={ShowSavingsList} />
       <Route path="/Attitudes" component={ShowAttitudeList} />
       <Route path="/Dreams" component={ShowDreamsList} />
-      <Route path="/MillionPlan" component={ShowMillPlanList} />
-
+      <Route path="/MillPlan" component={ShowMillPlanList} />
 
     </div>
   </Router>
 );
-
 
 ReactDOM.render(<App />, document.getElementById('root'));

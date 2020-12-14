@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
@@ -37,57 +37,50 @@ import ShowSowReapList from './componentssowreap/ShowSowReapList';
 import ShowSowReapDetails from './componentssowreap/ShowSowReapDetails';
 import UpdateSowReapInfo from './componentssowreap/UpdateSowReapInfo';
 
-import Header from './components/Header/Header';
-import Occupations from './components/Occupations/Occupations';
-
-
-
-class App extends React.Component {
+class App extends Component {
   render() {
     return (
-    <Router>
-      <div>
-        <Route exact path='/attitudes' component={ShowAttitudeList} />
-        <Route path='/attitudes/add' component={CreateAttitude} />
-        <Route path='/attitudes/update/:id' component={UpdateAttitudeInfo} />
-        <Route path='/attitudes/:id' component={ShowAttitudeDetails} />
+      <Router>
+        <div>
+          <Route exact path='/attitudes' component={ShowAttitudeList} />
+          <Route path='/CreateAttitude' component={CreateAttitude} />
+          <Route path='/UpdateAttitudeInfo/:id' component={UpdateAttitudeInfo} />
+          <Route path='/ShowAttitudeDetails/:id' component={ShowAttitudeDetails} />
 
-        <Route exact path='/billspaid' component={ShowBillsPaidList} />
-        <Route path='/billspaid/add' component={CreateBillsPaid} />
-        <Route path='/billspaid/update/:id' component={UpdateBillsPaidInfo} />
-        <Route path='/billspaid/:id' component={ShowBillsPaidDetails} />
+          <Route exact path='/billspaid' component={ShowBillsPaidList} />
+          <Route path='/CreateBillsPaid' component={CreateBillsPaid} />
+          <Route path='/UpdateBillsPaidInfo/:id' component={UpdateBillsPaidInfo} />
+          <Route path='/ShowBillsPaidDetails/:id' component={ShowBillsPaidDetails} />
 
-        <Route exact path='/debtpayoff' component={ShowDebtPayoffList} />
-        <Route path='/debtpayoff/add' component={CreateDebtPayoff} />
-        <Route path='/debtpayoff/update/:id' component={UpdateDebtPayoffInfo} />
-        <Route path='/debtpayoff/:id' component={ShowDebtPayoffDetails} />
+          <Route exact path='/debtpayoff' component={ShowDebtPayoffList} />
+          <Route path='/CreateDebtPayoff' component={CreateDebtPayoff} />
+          <Route path='/UpdateDebtPayoffInfo/:id' component={UpdateDebtPayoffInfo} />
+          <Route path='/ShowDebtPayoffDetails/:id' component={ShowDebtPayoffDetails} />
 
-        <Route exact path='/savings' component={ShowSavingsList} />
-        <Route path='/savings/add' component={CreateSavings} />
-        <Route path='/savings/update/:id' component={UpdateSavingsInfo} />
-        <Route path='/savings/:id' component={ShowSavingsDetails} />
+          <Route exact path='/savings' component={ShowSavingsList} />
+          <Route path='/CreateSavings' component={CreateSavings} />
+          <Route path='/UpdateSavingsInfo/:id' component={UpdateSavingsInfo} />
+          <Route path='/ShowSavingsDetails/:id' component={ShowSavingsDetails} />
 
-        <Route exact path='/dreams' component={ShowDreamsList} />
-        <Route path='/dreams/add' component={CreateDreams} />
-        <Route path='/dreams/update/:id' component={UpdateDreamsInfo} />
-        <Route path='/dreams/:id' component={ShowDreamsDetails} />
+          <Route exact path='/dreams' component={ShowDreamsList} />
+          <Route path='/CreateDreams' component={CreateDreams} />
+          <Route path='/UpdateDreamsInfo/:id' component={UpdateDreamsInfo} />
+          <Route path='/ShowDreamsDetails/:id' component={ShowDreamsDetails} />
 
-        <Route exact path='/millplan' component={ShowMillPlanList} />
-        <Route path='/millplan/add' component={CreateMillPlan} />
-        <Route path='/millplan/update/:id' component={UpdateMillPlanInfo} />
-        <Route path='/millplan/:id' component={ShowMillPlanDetails} />
+          <Route exact path='/millplans' component={ShowMillPlanList} />
+          <Route path='/CreateMillPlan' component={CreateMillPlan} />
+          <Route path='/UpdateMillPlanInfo/:id' component={UpdateMillPlanInfo} />
+          <Route path='/ShowMillPlanDetails/:id' component={ShowMillPlanDetails} />
 
-        <Route exact path='/sowreap' component={ShowSowReapList} />
-        <Route path='/sowreap/add' component={CreateSowReap} />
-        <Route path='/sowreap/update/:id' component={UpdateSowReapInfo} />
-        <Route path='/sowreap/:id' component={ShowSowReapDetails} />
-
-        <Route path='/cashflowtracker' component={Header} />
-        <Route path='/incomesources' component={Occupations} />
-
-      </div>
-    </Router>
-  )}
+          <Route exact path='/sowreaps' component={ShowSowReapList} />
+          <Route path='/CreateSowReap' component={CreateSowReap} />
+          <Route path='/UpdateSowReapInfo/:id' component={UpdateSowReapInfo} />
+          <Route path='/ShowSowReapDetails/:id' component={ShowSowReapDetails} />
+          
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
