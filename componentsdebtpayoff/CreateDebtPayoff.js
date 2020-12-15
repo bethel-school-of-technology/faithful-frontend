@@ -1,152 +1,187 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import '../App.css';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
+import ShowDebtPayoffList from './ShowDebtPayoffList';
+import { Link } from 'react-router-dom';
+import { render } from '@testing-library/react';
+
+function CreateDebtPayoff() {
+
+  var [isEdit, setIsEdit] = useState("");
+  var [debtpayoffs, setDebtPayoffs] = useState([]);
+  var [debtpayoff, setDebtPayoff] = useState({});
+
+  var [item, setItem] = useState("");
+  var [amount, setAmount] = useState(-1);
+  var [minpayment, setMinpayment] = useState(-1);
+  var [snowballpayment, setSnowballpayment] = useState(-1);
+  var [numberleft, setNumberleft] = useState(-1);
+  var [snownumberleft, setSnownumberleft] = useState(-1);
 
 
-class CreateDebtPayoff extends Component {
-  constructor() {
-    super();
-    this.state = {
-      item: '',
-      amount:'',
-      minpayment:'',
-      snowbalpayment:'',
-      minnumberleft:'',
-      snownumberleft:''
-    };
+
+
+  useEffect(() => {
+    const getAllDebtPayoffs = async () => {
+
+      let debtpayoffsData = await fetch('http://localhost:3001/debtpayoffs/')
+      let dtpff = await debtpayoffsData.json();
+
+
+      console.log(dtpff);
+
+      setDebtPayoffs(dtpff.data.debtpayoffs);
+
+    }
+    getAllDebtPayoffs();
+
+  }, [])
+
+  const handleSubmit = async () => {
+    let newDebtPayoffData = await fetch('http://localhost:3001/debtpayoffs/add', {
+      method: "Post",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ item, amount, minpayment, snowballpayment, numberleft, snownumberleft })
+    })
+    let newDebtPayoff = newDebtPayoffData.json();
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const data = {
-      item: this.state.item,
-      amount: this.state.amount,
-      minpayment: this.state.minpayment,
-      snowballpayment: this.state.snowballpayment,
-      minnumberleft: this.state.minnumberleft,
-      snownumberleft: this.state.snownumberleft
-    };
-
-    axios
-      .post('http://localhost:3001/debtpayoff', data)
-      .then(res => {
-        this.setState({
-            item: '',
-            amount: 0,
-            minpayment: 0,
-            snowballpayment: 0,
-            minnumberleft: 1,
-            snownumberleft: 1
-        })
-        this.props.history.push('/');
-      })
-      .catch(err => {
-        console.log("Error in CreateDebtPayoff!");
-      })
-  };
-
-  render() {
-    return (
-      <div className="CreateDebtPayoff">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <br />
-              <Link to="/" className="btn btn-outline-warning float-left">
-                  Show What Debt is Remaining List
+  return (
+    <div className="CreateDebtPayoff">
+      <div className='container'>
+        <div>
+          <Link to="./DebtPayoff" className="btn btn-outline-blue float-right">
+            Return to Debt Payoff List
               </Link>
-            </div>
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Add Bills Paid</h1>
-              <p className="lead text-center">
-                  Enter the item of the debt, the amnount left to pay, the minimum payment, and the snowball amount.
-              </p>
-
-              <form noValidate onSubmit={this.onSubmit}>
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Item'
-                    name='item'
-                    className='form-control'
-                    value={this.state.item}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <br />
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='amount'
-                    className='form-control'
-                    value={this.state.amount}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='minpayment'
-                    className='form-control'
-                    value={this.state.minpayment}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='snowballpayment'
-                    className='form-control'
-                    value={this.state.snowballpayment}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "1"
-                    name='minnumberleft'
-                    className='form-control'
-                    value={this.state.minnumberleft}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='snownumberleft'
-                    className='form-control'
-                    value={this.state.snownumberleft}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <input
-                    type="submit"
-                    className="btn btn-outline-warning btn-block mt-4"
-                />
-              </form>
-          </div>
-          </div>
+          <br />
+          <br />
+          <hr />
         </div>
+
+        <form onSubmit={handleSubmit}>
+
+          <table>
+
+            <tr>
+              <th col-2>
+                <label>Item</label>
+              </th>
+              <td>
+                <input type="text" onChange={e => setItem(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Amount</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setAmount(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Minimum Payment</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setMinpayment(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Snowball Payment</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setSnowballpayment(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Number Left</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setNumberleft(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Snowball Number Left</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setSnownumberleft(e.target.value)} />
+              </td>
+            </tr>
+
+            <tbody>
+              <tr>
+                <td>
+                  <input type="submit" />
+                </td>
+
+              </tr>
+            </tbody>
+
+          </table>
+
+        </form>
+
+        <table className='grid-container'>
+          <tr>
+            <th class='col-2'>
+              item
+            </th>
+            <th class='col-2'>
+              Amount
+            </th>
+            <th class='col-2'>
+              Minimum Payment
+            </th>
+            <th class='col-2'>
+              Snowball Payment
+            </th>
+            <th class='col-2'>
+              Number Left
+            </th>
+            <th class='col-2'>
+              Snowball Number Left
+            </th>
+          </tr>
+        </table>
+        
+        {debtpayoffs.map((debtpayoff, idx) => {
+          return (
+            <div key={idx}>
+              <table className='grid-container'>
+                <tr>
+                <td class='col-2'>
+                    {debtpayoff.item}
+                  </td>
+                  <td class='col-2'>
+                    ${debtpayoff.amount}
+                  </td>
+                  <td class='col-2'>
+                    ${debtpayoff.minpayment}
+                  </td>
+                  <td class='col-2'>
+                    ${debtpayoff.snowballpayment}
+                  </td>
+                  <td class='col-2'>
+                    ${debtpayoff.numberleft}
+                  </td>
+                  <td class='col-2'>
+                    ${debtpayoff.snownumberleft}
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+          )
+        }
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  )
+};
 
 export default CreateDebtPayoff;
