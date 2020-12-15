@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
-class showDebtPayoffDetails extends Component {
+class ShowDebtPayoffDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -122,14 +122,11 @@ class showDebtPayoffDetails extends Component {
             </div>
 
           </div>
-            {/* <br />
-            <button type="button" class="btn btn-outline-info btn-lg btn-block">Edit Debt Payoff</button>
-            <button type="button" class="btn btn-outline-danger btn-lg btn-block">Delete Debt Payoff</button> */}
-
+            
         </div>
       </div>
     );
   }
 }
 
-export default showDebtPayoffDetails;
+export default ShowDebtPayoffDetails;
