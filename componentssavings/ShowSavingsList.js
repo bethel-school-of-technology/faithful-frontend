@@ -1,71 +1,96 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import '../App.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SavingsCard from './SavingsCard';
-
-class ShowSavingsList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        savings: []
-    };
-  }
-
-  componentDidMount() {
-    axios
-      .get('http://localhost:3001/savings')
-      .then(res => {
-        this.setState({
-            savings: res.data
-        })
-      })
-      .catch(err =>{
-        console.log('Error from ShowSavingsList');
-      })
-  };
+import SavingCard from './SavingsCard';
 
 
-  render() {
-    const savings = this.state.savings;
-    console.log("PrintSavings: " + savings);
-    let savingList;
 
-    if(!savings) {
-        savingList = "there is no savings record!";
-    } else {
-        savingList = savings.map((saving, k) =>
-        <SavingsCard saving={saving} key={k} />
-      );
+
+function ShowSavingList() {
+
+  var [isEdit, setIsEdit] = useState("");
+  var [savings, setSavings] = useState([]);
+  var [saving, setSaving] = useState({});
+
+  var [purpose, setPurpose] = useState("");
+  var [goal, setGoal] = useState(-1);
+  var [currentamount, setCurrentamount] = useState(-1);
+
+  useEffect(() => {
+    const getAllSavings = async () => {
+      let savingsData = await fetch('http://localhost:3001/savings/')
+      let sav = await savingsData.json();
+
+      console.log(sav);
+
+      setSavings(sav.data.savings);
+
     }
+    getAllSavings();
+  }, []);
 
-    return (
-      <div className="ShowSavingsList">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
-              <br />
-              <h2 className="display-4 text-center">Savings List</h2>
-            </div>
 
-            <div className="col-md-11">
-              <Link to="/create-saving" className="btn btn-outline-blue float-right">
-                + Add New Savings Item
-              </Link>
-              <br />
-              <br />
-              <hr />
-            </div>
-
-          </div>
-
-          <div className="list">
-                {savingList}
-          </div>
-        </div>
+  return (
+    <div className="ShowSavingsList">
+      <div className="container">
+      <div className="col-md-12">
+        <br />
+        <h2 className="display-4 text-center">Savings List</h2>
       </div>
-    );
-  }
+      <div className="col-md-11">
+        <Link to="/CreateSavings" className="btn btn-outline-blue float-right">
+          + Add New Savings Purpose
+              </Link>
+        <br />
+        <br />
+        <hr />
+      </div>
+      <div>
+
+      </div>
+      {savings.map((saving, idx) => {
+        return (
+
+          <div key={idx}>
+            <table className='list-container'>
+
+              <tr>
+                <td width='90px'>
+                  {saving.purpose}
+                </td>
+                <td width='50px'>
+                  {saving.goal}
+                </td>
+                <td width='50px'>
+                  {saving.currentamount}
+                </td>
+              </tr>
+            </table>
+
+          </div>
+
+
+        )
+      })};
+      </div>
+    </div>
+
+
+
+
+  )
 }
 
-export default ShowSavingsList;
+
+
+
+export default ShowSavingList;
+
+
+
+
+
+
+
+
