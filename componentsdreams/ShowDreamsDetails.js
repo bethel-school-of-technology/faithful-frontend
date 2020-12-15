@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
+function ShowDreamsDetails () {
 class showDreamsDetails extends Component {
   constructor(props) {
     super(props);
@@ -116,5 +117,5 @@ class showDreamsDetails extends Component {
     );
   }
 }
-
-export default showDreamsDetails;
+}
+export default ShowDreamsDetails;
