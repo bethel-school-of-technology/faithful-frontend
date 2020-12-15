@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import '../App.css';
 
-class UpdateAttitudeInfo extends Component {
+function UpdateAttitudeInfo () {
+class updateAttitudeInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -135,6 +136,7 @@ class UpdateAttitudeInfo extends Component {
       </div>
     );
   }
+}
 }
 
 export default UpdateAttitudeInfo

@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom';
 import '../App.css';
 import axios from 'axios';
 
+function ShowAttitudeDetails () {
 class showAttitudeDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        attitude: {}
+      attitude: {}
     };
   }
 
   componentDidMount() {
     // console.log("Print id: " + this.props.match.params.id);
     axios
-      .get('http://localhost:3001/attitudes/'+this.props.match.params.id)
+      .get('http://localhost:3001/attitudes/' + this.props.match.params.id)
       .then(res => {
         // console.log("Print-showAttitudeDetails-API-response: " + res.data);
         this.setState({
-            attitude: res.data
+          attitude: res.data
         })
       })
       .catch(err => {
@@ -26,9 +27,9 @@ class showAttitudeDetails extends Component {
       })
   };
 
-  onDeleteClick (id) {
+  onDeleteClick(id) {
     axios
-      .delete('http://localhost:3001/attitude'+id)
+      .delete('http://localhost:3001/attitude' + id)
       .then(res => {
         this.props.history.push("/");
       })
@@ -55,22 +56,22 @@ class showAttitudeDetails extends Component {
           <tr>
             <th scope="row">1</th>
             <td>Date</td>
-            <td>{ attitude.date }</td>
+            <td>{attitude.date}</td>
           </tr>
           <tr>
             <th scope="row">2</th>
             <td>Thoughts</td>
-            <td>{ attitude.thoughts }</td>
+            <td>{attitude.thoughts}</td>
           </tr>
           <tr>
             <th scope="row">3</th>
             <td>Verses</td>
-            <td>{ attitude.verses }</td>
+            <td>{attitude.verses}</td>
           </tr>
           <tr>
             <th scope="row">4</th>
             <td>Possibilities</td>
-            <td>{ attitude.possibilities }</td>
+            <td>{attitude.possibilities}</td>
           </tr>
         </tbody>
       </table>
@@ -78,48 +79,46 @@ class showAttitudeDetails extends Component {
 
     return (
       <div className="ShowAttitudeDetails">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-10 m-auto">
-              <br /> <br />
-              <Link to="/" className="btn btn-outline-warning float-left">
-                  Show Attitude List
+
+        <div className="row">
+          <div className="col-md-10 m-auto">
+            <br /> <br />
+            <Link to="/" className="btn btn-outline-warning float-left">
+              Show Attitude List
               </Link>
-            </div>
-            <br />
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Attitude's Record</h1>
-              <p className="lead text-center">
-                  View Attitude Info
+          </div>
+          <br />
+          <div className="col-md-8 m-auto">
+            <h1 className="display-4 text-center">Attitude's Record</h1>
+            <p className="lead text-center">
+              View Attitude Info
               </p>
-              <hr /> <br />
-            </div>
+            <hr /> <br />
           </div>
-          <div>
-            { AttitudeItem }
+        </div>
+        <div>
+          {AttitudeItem}
+        </div>
+
+        <div className="row">
+          <div className="col-md-6">
+            <button type="button" className="btn btn-outline-danger btn-lg btn-block" onClick={this.onDeleteClick.bind(this.attitude._id)}>Delete Attitude</button><br />
           </div>
 
-          <div className="row">
-            <div className="col-md-6">
-              <button type="button" className="btn btn-outline-danger btn-lg btn-block" onClick={this.onDeleteClick.bind(this.attitude._id)}>Delete Attitude</button><br />
-            </div>
-
-            <div className="col-md-6">
-              <Link to={`/edit-attitude/${attitude._id}`} className="btn btn-outline-info btn-lg btn-block">
-                    Edit Attitude
+          <div className="col-md-6">
+            <Link to={`/edit-attitude/${attitude._id}`} className="btn btn-outline-info btn-lg btn-block">
+              Edit Attitude
               </Link>
-              <br />
-            </div>
-
+            <br />
           </div>
-            {/* <br />
-            <button type="button" class="btn btn-outline-info btn-lg btn-block">Edit Attitude</button>
-            <button type="button" class="btn btn-outline-danger btn-lg btn-block">Delete Attitude</button> */}
 
         </div>
+        
       </div>
+
     );
   }
 }
+};
 
-export default showAttitudeDetails;
+export default ShowAttitudeDetails;
