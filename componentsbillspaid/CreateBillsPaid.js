@@ -1,208 +1,171 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import '../App.css';
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import axios from 'axios';
+import ShowBillsPaidList from './ShowBillsPaidList';
+import { Link } from 'react-router-dom';
+import { render } from '@testing-library/react';
+
+function CreateBillsPaid() {
+
+  var [isEdit, setIsEdit] = useState("");
+  var [billspaids, setBillsPaids] = useState([]);
+  var [billspaid, setBillsPaid] = useState({});
+
+  var [name, setName] = useState("");
+  var [week1, setWeek1] = useState(-1);
+  var [week2, setWeek2] = useState(-1);
+  var [week3, setWeek3] = useState(-1);
+  var [week4, setWeek4] = useState(-1);
 
 
-class CreateBillsPaid extends Component {
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-      week1:'',
-      week2:'',
-      week3:'',
-      week4:'',
-      week1total:'',
-      week2total:'',
-      week3total:'',
-      week4total:'',
-      monthtotal:''
-    };
+
+  useEffect(() => {
+    const getAllBillsPaids = async () => {
+
+      let billspaidsData = await fetch('http://localhost:3001/billspaids/')
+      let bsps = await billspaidsData.json();
+
+
+      console.log(bsps);
+
+      setBillsPaids(bsps.data.billspaids);
+
+    }
+    getAllBillsPaids();
+
+  }, [])
+
+  const handleSubmit = async () => {
+    let newBillsPaidData = await fetch('http://localhost:3001/billspaids/add', {
+      method: "Post",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, week1, week2, week3, week4 })
+    })
+    let newBillsPaid = newBillsPaidData.json();
   }
 
-  onChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
-
-  onSubmit = e => {
-    e.preventDefault();
-
-    const data = {
-      name: this.state.name,
-      week1: this.state.week1,
-      week2: this.state.week2,
-      week3: this.state.week3,
-      week4: this.state.week4,
-      week1total: this.state.week1total,
-      week2total: this.state.week2total,
-      week3total: this.state.week3total,
-      week4total: this.state.week4total,
-      monthtotal: this.state.monthtotal
-    };
-
-    axios
-      .post('http://localhost:3001/billspaids', data)
-      .then(res => {
-        this.setState({
-            name: '',
-            week1: 0,
-            week2: 0,
-            week3: 0,
-            week4: 0,
-            week1total: 0,
-            week2total: 0,
-            week3total: 0,
-            week4total: 0,
-            monthtotal: 0
-        })
-        this.props.history.push('/');
-      })
-      .catch(err => {
-        console.log("Error in CreateBillsPaid!");
-      })
-  };
-
-  render() {
-    return (
-      <div className="CreateBillsPaid">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8 m-auto">
-              <br />
-              <Link to="/" className="btn btn-outline-warning float-left">
-                  Show When Bills are Paid List
+  return (
+    <div className="CreateBillsPaid">
+      <div className='container'>
+        <div>
+          <Link to="./BillsPaid" className="btn btn-outline-blue float-right">
+            Return to Bills Paid List
               </Link>
-            </div>
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Add Bills Paid</h1>
-              <p className="lead text-center">
-                  Enter the name of the bill and then enter the amount into the week it will be paid.
-              </p>
-
-              <form noValidate onSubmit={this.onSubmit}>
-                <div className='form-group'>
-                  <input
-                    type='text'
-                    placeholder='Name'
-                    name='name'
-                    className='form-control'
-                    value={this.state.name}
-                    onChange={this.onChange}
-                  />
-                </div>
-                <br />
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week1'
-                    className='form-control'
-                    value={this.state.week1}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week2'
-                    className='form-control'
-                    value={this.state.week2}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week3'
-                    className='form-control'
-                    value={this.state.week3}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week4'
-                    className='form-control'
-                    value={this.state.week4}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week1total'
-                    className='form-control'
-                    value={this.state.week1total}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week2total'
-                    className='form-control'
-                    value={this.state.week2total}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week3total'
-                    className='form-control'
-                    value={this.state.week3total}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='week4total'
-                    className='form-control'
-                    value={this.state.week4total}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <div className='form-group'>
-                  <input
-                    type='number'
-                    placeholder= "0"
-                    name='monthtotal'
-                    className='form-control'
-                    value={this.state.monthtotal}
-                    onChange={this.onChange}
-                  />
-                </div>
-
-                <input
-                    type="submit"
-                    className="btn btn-outline-warning btn-block mt-4"
-                />
-              </form>
-          </div>
-          </div>
+          <br />
+          <br />
+          <hr />
         </div>
+
+        <form onSubmit={handleSubmit}>
+
+          <table>
+
+            <tr>
+              <th col-2>
+                <label>Name</label>
+              </th>
+              <td>
+                <input type="text" onChange={e => setName(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Week 1</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setWeek1(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Week 2</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setWeek2(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Week 3</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setWeek3(e.target.value)} />
+              </td>
+            </tr>
+            <tr>
+              <th col-2>
+                <label>Week 4</label>
+              </th>
+              <td>
+                <input type="number" onChange={e => setWeek4(e.target.value)} />
+              </td>
+            </tr>
+
+            <tbody>
+              <tr>
+                <td>
+                  <input type="submit" />
+                </td>
+
+              </tr>
+            </tbody>
+
+          </table>
+
+        </form>
+
+        <table className='grid-container'>
+          <tr>
+            <th class='col-2'>
+              Bill
+            </th>
+            <th class='col-2'>
+              Week 1
+            </th>
+            <th class='col-2'>
+              Week 2
+            </th>
+            <th class='col-2'>
+              Week 3
+            </th>
+            <th class='col-2'>
+              Week 4
+            </th>
+          </tr>
+        </table>
+        
+        {billspaids.map((billspaid, idx) => {
+          return (
+            <div key={idx}>
+              <table className='grid-container'>
+                <tr>
+                <td class='col-2'>
+                    {billspaid.name}
+                  </td>
+                  <td class='col-2'>
+                    ${billspaid.week1}
+                  </td>
+                  <td class='col-2'>
+                    ${billspaid.week2}
+                  </td>
+                  <td class='col-2'>
+                    ${billspaid.week3}
+                  </td>
+                  <td class='col-2'>
+                    ${billspaid.week4}
+                  </td>
+                </tr>
+              </table>
+
+            </div>
+          )
+        }
+        )}
       </div>
-    );
-  }
-}
+    </div>
+  )
+};
 
 export default CreateBillsPaid;
