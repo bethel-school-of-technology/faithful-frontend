@@ -1,130 +1,179 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import ReactDOM from 'react-dom';
 import '../App.css';
 import axios from 'axios';
+import ShowBillsPaidList from './ShowBillsPaidList';
+import UpdateBillsPaidInfo from './UpdateBillsPaidInfo';
 
-class showBillsPaidDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        billspaid: {}
-    };
+function ShowBillsPaidDetails() {
+
+  var [isEdit, setIsEdit] = useState("");
+  var [billspaids, setBillsPaids] = useState([]);
+  var [billspaid, setBillsPaid] = useState({});
+
+
+  var [name, setName] = useState("");
+  var [week1, setWeek1] = useState(-1);
+  var [week2, setWeek2] = useState(-1);
+  var [week3, setWeek3] = useState(-1);
+  var [week4, setWeek4] = useState(-1);
+
+
+
+  useEffect(() => {
+    const getAllBillsPaids = async () => {
+
+      let billspaidsData = await fetch('http://localhost:3001/billspaids/')
+      let bsps = await billspaidsData.json();
+
+
+      console.log(bsps);
+
+      setBillsPaids(bsps.data.billspaids);
+
+    }
+    getAllBillsPaids();
+
+  }, [])
+
+  const handleSubmit = async () => {
+    let newBillsPaidData = await fetch('http://localhost:3001/billspaids/update/:id', {
+      method: "Put",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ name, week1, week2, week3, week4 })
+    })
+    let newBillsPaid = newBillsPaidData.json();
   }
-
-  componentDidMount() {
-    // console.log("Print id: " + this.props.match.params.id);
-    axios
-      .get('http://localhost:3001/billspaid/'+this.props.match.params.id)
-      .then(res => {
-        // console.log("Print-showBillsPaidDetails-API-response: " + res.data);
-        this.setState({
-            billspaid: res.data
-        })
-      })
-      .catch(err => {
-        console.log("Error from ShowBillsPaidDetails");
-      })
+  /*
+  onChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
   };
-
-  onDeleteClick (id) {
-    axios
-      .delete('http://localhost:3001/billspaid'+id)
-      .then(res => {
-        this.props.history.push("/");
-      })
-      .catch(err => {
-        console.log("Error form ShowBillsPaidDetails_deleteClick");
-      })
-  };
+*/
 
 
-  render() {
-
-    const billspaid = this.state.billspaid;
-    let BillsPaidItem = <div>
-      <table className="table table-hover table-dark">
-        {/* <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead> */}
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Name</td>
-            <td>{ billspaid.name }</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Week 1</td>
-            <td>{ billspaid.Week1 }</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Week 2</td>
-            <td>{ billspaid.week2 }</td>
-          </tr>
-          <tr>
-            <th scope="row">4</th>
-            <td>Week 3</td>
-            <td>{ billspaid.week3 }</td>
-          </tr>
-          <tr>
-            <th scope="row">5</th>
-            <td>Week 4</td>
-            <td>{ billspaid.week4 }</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    return (
-      <div className="ShowBillsPaidDetails">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-10 m-auto">
-              <br /> <br />
-              <Link to="/" className="btn btn-outline-warning float-left">
-                  Show Bills Paid List
+  return (
+    <div className="ShowBillsPaidDetails">
+      <div className='container'>
+        <div>
+          <Link to="./BillsPaid" className="btn btn-outline-blue float-right">
+            Return to Bills Paid List
               </Link>
+          <br />
+          <br />
+          <hr />
+        </div>
+        <div className="col-md-8 m-auto">
+          <h1 className="display-4 text-center">Edit Bills Paid Info</h1>
+          <p className="lead text-center">
+            Update Bills Paid's Info
+              </p>
+        </div>
+
+        <div className="col-md-8 m-auto">
+          <form noValidate onSubmit={this.onSubmit}>
+            <div className='form-group'>
+              <label htmlFor="name">Name</label>
+              <input
+                type='text'
+                placeholder='Name'
+                name='name'
+                className='form-control'
+                value={this.state.name}
+                onChange={this.onChange}
+              />
             </div>
             <br />
-            <div className="col-md-8 m-auto">
-              <h1 className="display-4 text-center">Bills Paid's Record</h1>
-              <p className="lead text-center">
-                  View Bills Paid Info
-              </p>
-              <hr /> <br />
-            </div>
-          </div>
-          <div>
-            { BillsPaidItem }
-          </div>
 
-          <div className="row">
-            <div className="col-md-6">
-              <button type="button" className="btn btn-outline-danger btn-lg btn-block" onClick={this.onDeleteClick.bind(this.billspaid._id)}>Delete Bills Paid</button><br />
+            <div className='form-group'>
+              <label htmlFor="week1">Week 1</label>
+              <input
+                type='number'
+                placeholder='Week1'
+                name='week1'
+                className='form-control'
+                value={this.state.week1}
+                onChange={this.onChange}
+              />
             </div>
 
-            <div className="col-md-6">
-              <Link to={`/edit-billspaid/${billspaid._id}`} className="btn btn-outline-info btn-lg btn-block">
-                    Edit Bills Paid
-              </Link>
-              <br />
+            <div className='form-group'>
+              <label htmlFor="week2">Week 2</label>
+              <input
+                type='number'
+                placeholder='Week2'
+                name='week2'
+                className='form-control'
+                value={this.state.week2}
+                onChange={this.onChange}
+              />
             </div>
 
-          </div>
-            {/* <br />
-            <button type="button" class="btn btn-outline-info btn-lg btn-block">Edit Bills Paid</button>
-            <button type="button" class="btn btn-outline-danger btn-lg btn-block">Delete Bills Paid</button> */}
+            <div className='form-group'>
+              <label htmlFor="week3">Week 3</label>
+              <input
+                type='number'
+                placeholder='Week3'
+                name='week3'
+                className='form-control'
+                value={this.state.week3}
+                onChange={this.onChange}
+              />
+            </div>
 
+            <div className='form-group'>
+              <label htmlFor="week4">Week 4</label>
+              <input
+                type='number'
+                placeholder='Week4'
+                name='week4'
+                className='form-control'
+                value={this.state.week4}
+                onChange={this.onChange}
+              />
+            </div>
+        
+            <button type="submit" className="btn btn-outline-info btn-lg btn-block">Update Attitude</button>
+            </form>
+          </div>
+
+
+
+
+
+          {billspaids.map((billspaid, idx) => {
+            return (
+              <div key={idx}>
+                <table>
+                  <tr>
+                    <td cols2>
+                      {billspaid.name}
+                    </td>
+                    <td>
+                      {billspaid.week1}
+                    </td>
+                    <td>
+                      {billspaid.week2}
+                    </td>
+                    <td>
+                      ${billspaid.week3}
+                    </td>
+                    <td>
+                      {billspaid.week4}
+                    </td>
+                  </tr>
+                </table>
+
+              </div>
+            )
+          }
+          )}
+          </div>
         </div>
-      </div>
-    );
-  }
-}
+      
+  )
+};
 
-export default showBillsPaidDetails;
+export default ShowBillsPaidDetails;
